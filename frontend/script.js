@@ -1,15 +1,13 @@
-// === CONFIGURE AQUI A URL DA SUA API BACKEND ===
-const API_URL = 'http://127.0.0.1:8000/api/indicadores/';
+const API_URL = 'https://indicadores-api-r588.onrender.com/api/indicadores/';
 
 // === SELIC ===
 function buscarSelic() {
-    // Calcula a data de 10 anos atrás (ou menos, se quiser)
     const hoje = new Date();
     const dia = String(hoje.getDate()).padStart(2, '0');
     const mes = String(hoje.getMonth() + 1).padStart(2, '0');
     const ano = hoje.getFullYear();
     const dataFinal = `${dia}/${mes}/${ano}`;
-    const dataInicial = `${dia}/${mes}/${ano - 1}`; // 1 ano atrás, pode ser 10 anos se quiser
+    const dataInicial = `${dia}/${mes}/${ano - 1}`; 
 
     const url = `https://api.bcb.gov.br/dados/serie/bcdata.sgs.1178/dados?formato=json&dataInicial=${dataInicial}&dataFinal=${dataFinal}`;
 
@@ -116,7 +114,6 @@ function editarIndicador(id, tipo, valor, ano) {
     document.getElementById('ano').value = ano;
     document.getElementById('indicador-form').querySelector('button[type="submit"]').textContent = 'Salvar';
     btnCancelar.style.display = 'inline-block';
-    // Destaca a linha em edição
     document.querySelectorAll('tr.editando').forEach(tr => tr.classList.remove('editando'));
     const trs = document.querySelectorAll('#indicadores-table tbody tr');
     trs.forEach(tr => {
@@ -156,7 +153,7 @@ document.getElementById('indicador-form').addEventListener('submit', function(e)
     if (editandoId) {
         // Modo edição
         const idParaEditar = editandoId;
-        editandoId = null; // Limpa ANTES do fetch
+        editandoId = null; 
         document.getElementById('indicador-form').querySelector('button[type="submit"]').textContent = 'Cadastrar';
         btnCancelar.style.display = 'none';
         fetch(API_URL + idParaEditar + '/', {
